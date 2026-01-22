@@ -84,7 +84,7 @@ chmod +x .claude/hooks/claudeception-activator.sh
 
 If you already have a `settings.json`, merge the `hooks` configuration into it.
 
-The hook injects a reminder on every prompt that tells Claude to evaluate whether the current task produced extractable knowledge. This achieves higher activation rates than relying on semantic description matching alone.The hook injects a reminder on every prompt that tells Claude to evaluate whether the current task produced extractable knowledge. This achieves higher activation rates than relying on semantic description matching alone.
+The hook injects a reminder on every prompt that tells Claude to evaluate whether the current task produced extractable knowledge. This achieves higher activation rates than relying on semantic description matching alone.
 
 ## Usage
 
