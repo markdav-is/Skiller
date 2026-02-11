@@ -151,10 +151,15 @@ The hook injects a reminder on every prompt that tells the agent to evaluate whe
 
 ### Cursor / Other Agents
 
-Agents that support the Agent Skills standard can use Skiller by cloning it into the standard skills directory:
+Agents that support the Agent Skills standard can use Skiller by installing it into the standard skills directory:
 
-```
-git clone https://github.com/markdav-is/Skiller.git .github/skills/skiller
+```bash
+# Clone to a temporary location
+git clone https://github.com/markdav-is/Skiller.git /tmp/skiller-install
+
+# Copy the core skill file into the standard skills directory
+mkdir -p .github/skills/skiller
+cp /tmp/skiller-install/SKILL.md .github/skills/skiller/SKILL.md
 ```
 
 The `.github/skills/` path is recognized by Claude Code, GitHub Copilot, Cursor, OpenCode, and others.
