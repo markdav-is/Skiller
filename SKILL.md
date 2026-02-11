@@ -7,7 +7,7 @@ description: |
   non-obvious debugging, workarounds, or trial-and-error discovery. Creates new agent
   skills when valuable, reusable knowledge is identified. Works with Claude Code,
   GitHub Copilot, and other agents that support the Agent Skills standard.
-author: Claude Code
+author: Skiller
 version: 4.0.0
 allowed-tools:
   - Read
