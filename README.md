@@ -16,25 +16,34 @@ Copilot supports Skiller through three integration points: agent skills (automat
 
 #### Step 1: Clone into your project
 
+The simplest approach — clone the entire repo as a skill directory:
+
+```bash
+git clone https://github.com/markdav-is/Skiller.git .github/skills/skiller
+```
+
+Or copy just the Copilot integration files:
+
+**macOS / Linux:**
 ```bash
 git clone https://github.com/markdav-is/Skiller.git /tmp/skiller-install
-
-# Copy the Copilot integration files
 mkdir -p .github/skills/skiller .github/agents .github/prompts
 cp /tmp/skiller-install/SKILL.md .github/skills/skiller/SKILL.md
 cp /tmp/skiller-install/.github/agents/skiller.agent.md .github/agents/
 cp /tmp/skiller-install/.github/prompts/skiller.prompt.md .github/prompts/
-
-# Optional: copy repo-level instructions
 cp /tmp/skiller-install/.github/copilot-instructions.md .github/copilot-instructions.md
-
 rm -rf /tmp/skiller-install
 ```
 
-Or clone the entire repo as a skill directory:
-
-```bash
-git clone https://github.com/markdav-is/Skiller.git .github/skills/skiller
+**Windows (PowerShell):**
+```powershell
+git clone https://github.com/markdav-is/Skiller.git $env:TEMP\skiller-install
+New-Item -ItemType Directory -Force -Path .github\skills\skiller, .github\agents, .github\prompts
+Copy-Item $env:TEMP\skiller-install\SKILL.md .github\skills\skiller\SKILL.md
+Copy-Item $env:TEMP\skiller-install\.github\agents\skiller.agent.md .github\agents\
+Copy-Item $env:TEMP\skiller-install\.github\prompts\skiller.prompt.md .github\prompts\
+Copy-Item $env:TEMP\skiller-install\.github\copilot-instructions.md .github\copilot-instructions.md
+Remove-Item -Recurse -Force $env:TEMP\skiller-install
 ```
 
 #### Step 2: Use it
@@ -68,10 +77,17 @@ The skill can activate via semantic matching, but a hook ensures it evaluates ev
 
 1. Create the hooks directory and copy the script:
 
+**macOS / Linux:**
 ```bash
 mkdir -p ~/.claude/hooks
 cp ~/.claude/skills/skiller/scripts/skiller-activator.sh ~/.claude/hooks/
 chmod +x ~/.claude/hooks/skiller-activator.sh
+```
+
+**Windows (PowerShell):**
+```powershell
+New-Item -ItemType Directory -Force -Path $env:USERPROFILE\.claude\hooks
+Copy-Item $env:USERPROFILE\.claude\skills\skiller\scripts\skiller-activator.sh $env:USERPROFILE\.claude\hooks\
 ```
 
 2. Add the hook to your global Claude settings (`~/.claude/settings.json`):
@@ -97,10 +113,17 @@ chmod +x ~/.claude/hooks/skiller-activator.sh
 
 1. Create the hooks directory inside your project and copy the script:
 
+**macOS / Linux:**
 ```bash
 mkdir -p .claude/hooks
 cp .claude/skills/skiller/scripts/skiller-activator.sh .claude/hooks/
 chmod +x .claude/hooks/skiller-activator.sh
+```
+
+**Windows (PowerShell):**
+```powershell
+New-Item -ItemType Directory -Force -Path .claude\hooks
+Copy-Item .claude\skills\skiller\scripts\skiller-activator.sh .claude\hooks\
 ```
 
 2. Add the hook to your project settings (`.claude/settings.json` in the repo):
@@ -130,7 +153,7 @@ The hook injects a reminder on every prompt that tells the agent to evaluate whe
 
 Agents that support the Agent Skills standard can use Skiller by cloning it into the standard skills directory:
 
-```bash
+```
 git clone https://github.com/markdav-is/Skiller.git .github/skills/skiller
 ```
 

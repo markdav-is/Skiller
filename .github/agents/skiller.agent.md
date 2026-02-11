@@ -37,14 +37,12 @@ Only extract knowledge that is:
 
 ### Step 1: Check for Existing Skills
 
-Search all known skill directories for related skills before creating new ones:
+Search these directories for existing `SKILL.md` files before creating new ones:
 
-```sh
-# Check these directories for existing skills
-for dir in .github/skills "$HOME/.copilot/skills"; do
-  find "$dir" -name "SKILL.md" 2>/dev/null
-done
-```
+- `.github/skills/` (project-level, cross-agent)
+- `~/.copilot/skills/` (user-level, Copilot)
+
+Use the `search/codebase` tool or file search to find all `SKILL.md` files in these paths.
 
 If a related skill exists, update it instead of creating a duplicate.
 

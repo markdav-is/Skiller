@@ -71,33 +71,22 @@ Before extracting, verify the knowledge meets these criteria:
 
 **Goal:** Find related skills before creating. Decide: update or create new.
 
-```sh
-# Skill directories — check all known agent skill paths
-SKILL_DIRS=(
-  # Agent Skills standard (cross-agent)
-  ".github/skills"
-  # Claude Code paths
-  ".claude/skills"
-  "$HOME/.claude/skills"
-  # Codex path
-  "$HOME/.codex/skills"
-  # Copilot user-level path
-  "$HOME/.copilot/skills"
-  # Add other tool paths as needed
-)
+Search these directories for existing `SKILL.md` files:
 
-# List all skills
-rg --files -g 'SKILL.md' "${SKILL_DIRS[@]}" 2>/dev/null
+| Path | Scope | Agent |
+|------|-------|-------|
+| `.github/skills/` | Project | All (cross-agent standard) |
+| `.claude/skills/` | Project | Claude Code |
+| `~/.claude/skills/` | User | Claude Code |
+| `~/.codex/skills/` | User | Codex |
+| `~/.copilot/skills/` | User | Copilot |
 
-# Search by keywords
-rg -i "keyword1|keyword2" "${SKILL_DIRS[@]}" 2>/dev/null
+Use your agent's file search or codebase search tools to:
 
-# Search by exact error message
-rg -F "exact error message" "${SKILL_DIRS[@]}" 2>/dev/null
-
-# Search by context markers (files, functions, config keys)
-rg -i "getServerSideProps|next.config.js|prisma.schema" "${SKILL_DIRS[@]}" 2>/dev/null
-```
+1. **List all skills**: Find all `SKILL.md` files in the directories above
+2. **Search by keywords**: Search skill files for relevant terms
+3. **Search by error message**: Look for exact error text in existing skills
+4. **Search by context**: Search for related filenames, functions, or config keys
 
 | Found                                            | Action                                                   |
 |--------------------------------------------------|----------------------------------------------------------|
