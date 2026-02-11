@@ -57,16 +57,16 @@ Remove-Item -Recurse -Force $env:TEMP\skiller-install
 
 #### Step 1: Clone the skill
 
-**User-level (recommended)**
+**Project-level (recommended)**
 
 ```bash
-git clone https://github.com/markdav-is/Skiller.git ~/.claude/skills/skiller
+git clone https://github.com/markdav-is/Skiller.git .github/skills/skiller
 ```
 
-**Project-level**
+**User-level**
 
 ```bash
-git clone https://github.com/markdav-is/Skiller.git .claude/skills/skiller
+git clone https://github.com/markdav-is/Skiller.git ~/.config/claude/skills/skiller
 ```
 
 #### Step 2: Set up the activation hook (recommended)
@@ -80,14 +80,14 @@ The skill can activate via semantic matching, but a hook ensures it evaluates ev
 **macOS / Linux:**
 ```bash
 mkdir -p ~/.claude/hooks
-cp ~/.claude/skills/skiller/scripts/skiller-activator.sh ~/.claude/hooks/
+cp .github/skills/skiller/scripts/skiller-activator.sh ~/.claude/hooks/
 chmod +x ~/.claude/hooks/skiller-activator.sh
 ```
 
 **Windows (PowerShell):**
 ```powershell
 New-Item -ItemType Directory -Force -Path $env:USERPROFILE\.claude\hooks
-Copy-Item $env:USERPROFILE\.claude\skills\skiller\scripts\skiller-activator.sh $env:USERPROFILE\.claude\hooks\
+Copy-Item .github\skills\skiller\scripts\skiller-activator.sh $env:USERPROFILE\.claude\hooks\
 ```
 
 2. Add the hook to your global Claude settings (`~/.claude/settings.json`):
@@ -116,14 +116,14 @@ Copy-Item $env:USERPROFILE\.claude\skills\skiller\scripts\skiller-activator.sh $
 **macOS / Linux:**
 ```bash
 mkdir -p .claude/hooks
-cp .claude/skills/skiller/scripts/skiller-activator.sh .claude/hooks/
+cp .github/skills/skiller/scripts/skiller-activator.sh .claude/hooks/
 chmod +x .claude/hooks/skiller-activator.sh
 ```
 
 **Windows (PowerShell):**
 ```powershell
 New-Item -ItemType Directory -Force -Path .claude\hooks
-Copy-Item .claude\skills\skiller\scripts\skiller-activator.sh .claude\hooks\
+Copy-Item .github\skills\skiller\scripts\skiller-activator.sh .claude\hooks\
 ```
 
 2. Add the hook to your project settings (`.claude/settings.json` in the repo):
@@ -205,8 +205,6 @@ Extracted skills go to `.github/skills/[skill-name]/SKILL.md` by default — the
 | Path | Scope | Agents |
 |------|-------|--------|
 | `.github/skills/` | Project | All (standard path) |
-| `.claude/skills/` | Project | Claude Code |
-| `~/.claude/skills/` | User | Claude Code |
 | `~/.copilot/skills/` | User | Copilot |
 
 ## How It Works
