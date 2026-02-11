@@ -182,7 +182,7 @@ Extracted skills go to `.github/skills/[skill-name]/SKILL.md` by default — the
 | Path | Scope | Agents |
 |------|-------|--------|
 | `.github/skills/` | Project | All (standard path) |
-| `.claude/skills/` | Project | Claude Code, Copilot (legacy) |
+| `.claude/skills/` | Project | Claude Code |
 | `~/.claude/skills/` | User | Claude Code |
 | `~/.copilot/skills/` | User | Copilot |
 

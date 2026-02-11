@@ -41,7 +41,7 @@ Search all known skill directories for related skills before creating new ones:
 
 ```sh
 # Check these directories for existing skills
-for dir in .github/skills .claude/skills; do
+for dir in .github/skills "$HOME/.copilot/skills"; do
   find "$dir" -name "SKILL.md" 2>/dev/null
 done
 ```

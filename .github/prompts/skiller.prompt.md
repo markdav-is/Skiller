@@ -17,7 +17,7 @@ Review this session for extractable knowledge worth preserving as reusable skill
 2. **Identify candidates**: List potential skills with brief justifications. Focus on
    knowledge that required actual investigation — not documentation lookups.
 
-3. **Check existing skills**: Search `.github/skills/` and `.claude/skills/` for
+3. **Check existing skills**: Search `.github/skills/` and `~/.copilot/skills/` for
    related skills. Update existing ones if appropriate rather than creating duplicates.
 
 4. **Extract top candidates**: For each candidate (typically 1-3 per session), create
