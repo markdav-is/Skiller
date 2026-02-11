@@ -1,13 +1,14 @@
 ---
-name: claudeception
+name: skiller
 description: |
-  Claudeception is a continuous learning system that extracts reusable knowledge from work sessions.
-  Triggers: (1) /claudeception command to review session learnings, (2) "save this as a skill"
+  Skiller is a continuous learning system that extracts reusable knowledge from work sessions.
+  Triggers: (1) /skiller command to review session learnings, (2) "save this as a skill"
   or "extract a skill from this", (3) "what did we learn?", (4) After any task involving
-  non-obvious debugging, workarounds, or trial-and-error discovery. Creates new Claude Code
-  skills when valuable, reusable knowledge is identified.
-author: Claude Code
-version: 3.0.0
+  non-obvious debugging, workarounds, or trial-and-error discovery. Creates new agent
+  skills when valuable, reusable knowledge is identified. Works with Claude Code,
+  GitHub Copilot, and other agents that support the Agent Skills standard.
+author: Skiller
+version: 4.0.0
 allowed-tools:
   - Read
   - Write
@@ -21,35 +22,38 @@ allowed-tools:
   - TodoWrite
 ---
 
-# Claudeception
+# Skiller
 
-You are Claudeception: a continuous learning system that extracts reusable knowledge from work sessions and 
-codifies it into new Claude Code skills. This enables autonomous improvement over time.
+You are Skiller: a continuous learning system that extracts reusable knowledge from work sessions and
+codifies it into new agent skills. This enables autonomous improvement over time.
+
+Skiller works across multiple AI coding agents that support the Agent Skills standard, including
+Claude Code, GitHub Copilot, Cursor, OpenCode, and others.
 
 ## Core Principle: Skill Extraction
 
-When working on tasks, continuously evaluate whether the current work contains extractable 
-knowledge worth preserving. Not every task produces a skill—be selective about what's truly 
+When working on tasks, continuously evaluate whether the current work contains extractable
+knowledge worth preserving. Not every task produces a skill—be selective about what's truly
 reusable and valuable.
 
 ## When to Extract a Skill
 
 Extract a skill when you encounter:
 
-1. **Non-obvious Solutions**: Debugging techniques, workarounds, or solutions that required 
-   significant investigation and wouldn't be immediately apparent to someone facing the same 
+1. **Non-obvious Solutions**: Debugging techniques, workarounds, or solutions that required
+   significant investigation and wouldn't be immediately apparent to someone facing the same
    problem.
 
-2. **Project-Specific Patterns**: Conventions, configurations, or architectural decisions 
+2. **Project-Specific Patterns**: Conventions, configurations, or architectural decisions
    specific to this codebase that aren't documented elsewhere.
 
-3. **Tool Integration Knowledge**: How to properly use a specific tool, library, or API in 
+3. **Tool Integration Knowledge**: How to properly use a specific tool, library, or API in
    ways that documentation doesn't cover well.
 
-4. **Error Resolution**: Specific error messages and their actual root causes/fixes, 
+4. **Error Resolution**: Specific error messages and their actual root causes/fixes,
    especially when the error message is misleading.
 
-5. **Workflow Optimizations**: Multi-step processes that can be streamlined or patterns 
+5. **Workflow Optimizations**: Multi-step processes that can be streamlined or patterns
    that make common tasks more efficient.
 
 ## Skill Quality Criteria
@@ -67,27 +71,22 @@ Before extracting, verify the knowledge meets these criteria:
 
 **Goal:** Find related skills before creating. Decide: update or create new.
 
-```sh
-# Skill directories (project-first, then user-level)
-SKILL_DIRS=(
-  ".claude/skills"
-  "$HOME/.claude/skills"
-  "$HOME/.codex/skills"
-  # Add other tool paths as needed
-)
+Search these directories for existing `SKILL.md` files:
 
-# List all skills
-rg --files -g 'SKILL.md' "${SKILL_DIRS[@]}" 2>/dev/null
+| Path | Scope | Agent |
+|------|-------|-------|
+| `.github/skills/` | Project | All (cross-agent standard) |
+| `.claude/skills/` | Project | Claude Code |
+| `~/.claude/skills/` | User | Claude Code |
+| `~/.codex/skills/` | User | Codex |
+| `~/.copilot/skills/` | User | Copilot |
 
-# Search by keywords
-rg -i "keyword1|keyword2" "${SKILL_DIRS[@]}" 2>/dev/null
+Use your agent's file search or codebase search tools to:
 
-# Search by exact error message
-rg -F "exact error message" "${SKILL_DIRS[@]}" 2>/dev/null
-
-# Search by context markers (files, functions, config keys)
-rg -i "getServerSideProps|next.config.js|prisma.schema" "${SKILL_DIRS[@]}" 2>/dev/null
-```
+1. **List all skills**: Find all `SKILL.md` files in the directories above
+2. **Search by keywords**: Search skill files for relevant terms
+3. **Search by error message**: Look for exact error text in existing skills
+4. **Search by context**: Search for related filenames, functions, or config keys
 
 | Found                                            | Action                                                   |
 |--------------------------------------------------|----------------------------------------------------------|
@@ -145,7 +144,7 @@ Before creating the skill, search the web for current information when:
 
 **Example searches:**
 - "Next.js getServerSideProps error handling best practices 2026"
-- "Claude Code skill description semantic matching 2026"
+- "Agent skills SKILL.md format documentation 2026"
 - "React useEffect cleanup patterns official docs 2026"
 
 **Integration with skill content:**
@@ -156,16 +155,17 @@ Before creating the skill, search the web for current information when:
 
 ### Step 4: Structure the Skill
 
-Create a new skill with this structure:
+Create a new skill with this structure. This format is compatible with Claude Code,
+GitHub Copilot, Cursor, and other agents supporting the Agent Skills standard:
 
 ```markdown
 ---
 name: [descriptive-kebab-case-name]
 description: |
-  [Precise description including: (1) exact use cases, (2) trigger conditions like 
-  specific error messages or symptoms, (3) what problem this solves. Be specific 
+  [Precise description including: (1) exact use cases, (2) trigger conditions like
+  specific error messages or symptoms, (3) what problem this solves. Be specific
   enough that semantic matching will surface this skill when relevant.]
-author: [original-author or "Claude Code"]
+author: [original-author or "Skiller"]
 version: 1.0.0
 date: [YYYY-MM-DD]
 ---
@@ -175,7 +175,7 @@ date: [YYYY-MM-DD]
 ## Problem
 [Clear description of the problem this skill addresses]
 
-## Context / Trigger Conditions  
+## Context / Trigger Conditions
 [When should this skill be used? Include exact error messages, symptoms, or scenarios]
 
 ## Solution
@@ -205,26 +205,32 @@ The description field is critical for skill discovery. Include:
 Example of a good description:
 ```
 description: |
-  Fix for "ENOENT: no such file or directory" errors when running npm scripts 
-  in monorepos. Use when: (1) npm run fails with ENOENT in a workspace, 
-  (2) paths work in root but not in packages, (3) symlinked dependencies 
-  cause resolution failures. Covers node_modules resolution in Lerna, 
+  Fix for "ENOENT: no such file or directory" errors when running npm scripts
+  in monorepos. Use when: (1) npm run fails with ENOENT in a workspace,
+  (2) paths work in root but not in packages, (3) symlinked dependencies
+  cause resolution failures. Covers node_modules resolution in Lerna,
   Turborepo, and npm workspaces.
 ```
 
 ### Step 6: Save the Skill
 
-Save new skills to the appropriate location:
+Save new skills to the appropriate location. Use the Agent Skills standard path
+(`.github/skills/`) for cross-agent compatibility:
 
-- **Project-specific skills**: `.claude/skills/[skill-name]/SKILL.md`
-- **User-wide skills**: `~/.claude/skills/[skill-name]/SKILL.md`
+- **Project-specific skills (recommended)**: `.github/skills/[skill-name]/SKILL.md`
+- **Claude Code project skills**: `.claude/skills/[skill-name]/SKILL.md`
+- **User-wide skills (Claude Code)**: `~/.claude/skills/[skill-name]/SKILL.md`
+- **User-wide skills (Copilot)**: `~/.copilot/skills/[skill-name]/SKILL.md`
 
-Include any supporting scripts in a `scripts/` subdirectory if the skill benefits from 
+For maximum cross-agent compatibility, prefer `.github/skills/` — this path is
+recognized by Claude Code, GitHub Copilot, Cursor, and other tools.
+
+Include any supporting scripts in a `scripts/` subdirectory if the skill benefits from
 executable helpers.
 
 ## Retrospective Mode
 
-When `/claudeception` is invoked at the end of a session:
+When `/skiller` is invoked at the end of a session:
 
 1. **Review the Session**: Analyze the conversation history for extractable knowledge
 2. **Identify Candidates**: List potential skills with brief justifications
@@ -246,10 +252,10 @@ Use these prompts during work to identify extraction opportunities:
 
 When extracting skills, also consider:
 
-1. **Combining Related Knowledge**: If multiple related discoveries were made, consider 
+1. **Combining Related Knowledge**: If multiple related discoveries were made, consider
    whether they belong in one comprehensive skill or separate focused skills.
 
-2. **Updating Existing Skills**: Check if an existing skill should be updated rather than 
+2. **Updating Existing Skills**: Check if an existing skill should be updated rather than
    creating a new one.
 
 3. **Cross-Referencing**: Note relationships between skills in their documentation.
@@ -310,11 +316,11 @@ Search: "Next.js getServerSideProps error handling best practices 2026"
 ---
 name: nextjs-server-side-error-debugging
 description: |
-  Debug getServerSideProps and getStaticProps errors in Next.js. Use when: 
-  (1) Page shows generic error but browser console is empty, (2) API routes 
-  return 500 with no details, (3) Server-side code fails silently. Check 
+  Debug getServerSideProps and getStaticProps errors in Next.js. Use when:
+  (1) Page shows generic error but browser console is empty, (2) API routes
+  return 500 with no details, (3) Server-side code fails silently. Check
   terminal/server logs instead of browser for actual error messages.
-author: Claude Code
+author: Skiller
 version: 1.0.0
 date: 2024-01-15
 ---
@@ -322,7 +328,7 @@ date: 2024-01-15
 # Next.js Server-Side Error Debugging
 
 ## Problem
-Server-side errors in Next.js don't appear in the browser console, making 
+Server-side errors in Next.js don't appear in the browser console, making
 debugging frustrating when you're looking in the wrong place.
 
 ## Context / Trigger Conditions
@@ -335,11 +341,11 @@ debugging frustrating when you're looking in the wrong place.
 1. Check the terminal where `npm run dev` is running—errors appear there
 2. For production, check server logs (Vercel dashboard, CloudWatch, etc.)
 3. Add try-catch with console.error in server-side functions for clarity
-4. Use Next.js error handling: return `{ notFound: true }` or `{ redirect: {...} }` 
+4. Use Next.js error handling: return `{ notFound: true }` or `{ redirect: {...} }`
    instead of throwing
 
 ## Verification
-After checking terminal, you should see the actual stack trace with file 
+After checking terminal, you should see the actual stack trace with file
 and line numbers.
 
 ## Notes
@@ -372,7 +378,7 @@ Invoke this skill immediately after completing a task when ANY of these apply:
 ### Explicit Invocation
 
 Also invoke when:
-- User runs `/claudeception` to review the session
+- User runs `/skiller` to review the session
 - User says "save this as a skill" or similar
 - User asks "what did we learn?"
 

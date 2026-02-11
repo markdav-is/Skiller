@@ -6,7 +6,7 @@ description: |
   (2) Specific trigger conditions - exact error messages, symptoms, scenarios
   (3) Key technologies/frameworks involved
   Use phrases like "Use when:", "Helps with:", "Solves:"]
-author: Claude Code
+author: Skiller
 version: 1.0.0
 date: YYYY-MM-DD
 ---
@@ -15,7 +15,7 @@ date: YYYY-MM-DD
 
 ## Problem
 
-[Clear, concise description of the problem this skill addresses. 
+[Clear, concise description of the problem this skill addresses.
 What pain point does this solve? Why is it non-obvious?]
 
 ## Context / Trigger Conditions
@@ -78,9 +78,13 @@ What pain point does this solve? Why is it non-obvious?]
 - [Known limitation]
 - [When NOT to use this skill]
 
+## References
+
+[Links to official documentation, articles, or resources that informed this skill]
+
 ---
 
-<!-- 
+<!--
 Extraction Checklist (remove before saving):
 - [ ] Name is descriptive and uses kebab-case
 - [ ] Description includes specific error messages/symptoms
@@ -92,4 +96,5 @@ Extraction Checklist (remove before saving):
 - [ ] Example is concrete and realistic
 - [ ] Notes cover edge cases and caveats
 - [ ] No sensitive information (credentials, internal URLs)
+- [ ] Saved to .github/skills/[name]/SKILL.md for cross-agent compatibility
 -->
