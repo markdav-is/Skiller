@@ -1,19 +1,44 @@
-# COPILOT.md
+# VISUAL-STUDIO.md
 
-This file provides guidance to GitHub Copilot when working with code in this repository.
+This file provides guidance for using Skiller with GitHub Copilot in Visual Studio.
 
 ## Project Overview
 
 Skiller is an **agent skill** for continuous learning — it enables AI coding agents to autonomously extract and preserve learned knowledge into reusable skills. It is not an application codebase but rather a skill definition with documentation and examples.
-
-Skiller works with any agent that supports the Agent Skills standard, including GitHub Copilot, Claude Code, Cursor, and others.
 
 ## Key Files
 
 - `SKILL.md` — The main skill definition (YAML frontmatter + instructions). This is what agents load.
 - `.github/agents/skiller.agent.md` — Custom Copilot agent for skill extraction
 - `.github/prompts/skiller.prompt.md` — Prompt file for `/skiller` command in Copilot Chat
+- `.github/copilot-instructions.md` — Repository-level custom instructions
 - `resources/skill-template.md` — Template for creating new skills
+
+## Visual Studio Integration
+
+### Custom Agent (`@skiller`)
+
+Copilot in Visual Studio detects `.agent.md` files in `.github/agents/`. Type `@skiller` in Copilot Chat to invoke the Skiller agent for skill extraction.
+
+### Prompt File (`/skiller`)
+
+Copilot in Visual Studio detects `.prompt.md` files in `.github/prompts/`. Type `/skiller` in Copilot Chat to trigger a session retrospective.
+
+### Agent Skills (Automatic)
+
+Skills in `.github/skills/` are discovered automatically by Copilot's progressive loading system. When your current context matches a skill's description, Copilot loads it.
+
+### Custom Instructions
+
+The `.github/copilot-instructions.md` file provides repository-level instructions that Copilot applies to all interactions in this workspace.
+
+## How Skills Load in Visual Studio
+
+Copilot uses three-level progressive loading:
+
+1. **Discovery**: Name + description loaded at startup (~100 tokens per skill)
+2. **Activation**: Full SKILL.md loaded when request matches description
+3. **Execution**: Supporting files loaded only as needed
 
 ## Skill File Format
 
@@ -36,29 +61,10 @@ The `description` field is critical — it determines when the skill surfaces du
 
 ## Installation Paths
 
-Skills should be saved to:
 - **Project-level (recommended)**: `.github/skills/[skill-name]/SKILL.md`
-- **Claude Code project**: `.claude/skills/[skill-name]/SKILL.md`
-- **User-level (Claude Code)**: `~/.claude/skills/[skill-name]/SKILL.md`
-- **User-level (Copilot)**: `~/.copilot/skills/[skill-name]/SKILL.md`
+- **User-level**: `~/.copilot/skills/[skill-name]/SKILL.md`
 
 The `.github/skills/` path is the cross-agent standard and is recommended for maximum compatibility.
-
-## GitHub Copilot Integration
-
-### Agent Mode
-
-Skiller integrates with Copilot's agent mode through:
-1. **Custom Agent**: `.github/agents/skiller.agent.md` — Invoke via `@skiller` in Copilot Chat
-2. **Prompt File**: `.github/prompts/skiller.prompt.md` — Invoke via `/skiller` command
-3. **Agent Skills**: Skills in `.github/skills/` are automatically discovered by Copilot's progressive loading system
-
-### How Skills Load in Copilot
-
-Copilot uses three-level progressive loading:
-1. **Discovery**: Name + description loaded at startup (~100 tokens per skill)
-2. **Activation**: Full SKILL.md loaded when request matches description
-3. **Execution**: Supporting files loaded only as needed
 
 ## Quality Criteria for Skills
 
@@ -68,6 +74,7 @@ When modifying or creating skills, ensure:
 - **Specific**: Clear trigger conditions (exact error messages, symptoms)
 - **Verified**: Solution has actually been tested and works
 
-## Research Foundation
+## References
 
-The approach is based on academic work on skill libraries (Voyager, CASCADE, SEAgent, Reflexion). See `resources/research-references.md` for details.
+- [Copilot in Visual Studio](https://learn.microsoft.com/en-us/visualstudio/ide/copilot-chat-context)
+- [Agent Skills](https://code.visualstudio.com/docs/copilot/customization/agent-skills)

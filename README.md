@@ -1,8 +1,24 @@
 # Skiller
 
-Every time you use an AI coding agent, it starts from zero. You spend an hour debugging some obscure error, the agent figures it out, session ends. Next time you hit the same issue? Another hour.
+AI coding agents are good at solving problems—but bad at remembering them. You spend time debugging an obscure issue. The agent eventually figures it out. The session ends. When the same issue shows up later, the agent has no memory of the solution, and you start over from scratch. This leads to repeated explanations, duplicated effort, and wasted time.
 
-Skiller fixes that. When your agent discovers something non-obvious (a debugging technique, a workaround, some project-specific pattern), it saves that knowledge as a new skill. Next time a similar problem comes up, the skill gets loaded automatically.
+## Solution
+
+Skiller adds persistent memory to AI coding agents. When an agent uncovers something non-obvious—such as a debugging technique, workaround, or project-specific pattern—Skiller saves it as a reusable skill. That skill is automatically loaded the next time a similar situation appears. No re-explaining. No rediscovering the same fix.
+
+How It Works
+•	Detects valuable, hard-won knowledge during problem-solving
+•	Stores that knowledge as a named skill
+•	Automatically applies relevant skills in future sessions
+
+Each solved problem makes the agent better prepared for the next one.
+
+Why It Matters
+•	Builds institutional memory over time
+•	Reduces repeated debugging and context-setting
+•	Helps teams share solutions implicitly, not manually
+
+Think of it as a checklist that writes itself—so your future self (and your teammates) don’t have to relearn lessons you already paid for.
 
 Works with **Claude Code**, **GitHub Copilot**, **Cursor**, and other agents that support the [Agent Skills standard](https://code.visualstudio.com/docs/copilot/customization/agent-skills).
 
@@ -14,36 +30,22 @@ Works with **Claude Code**, **GitHub Copilot**, **Cursor**, and other agents tha
 
 Copilot supports Skiller through three integration points: agent skills (automatic), a custom agent (`@skiller`), and a prompt file (`/skiller`).
 
-#### Step 1: Clone into your project
-
-The simplest approach — clone the entire repo as a skill directory:
-
-```bash
-git clone https://github.com/markdav-is/Skiller.git .github/skills/skiller
-```
-
-Or copy just the Copilot integration files:
+#### Step 1: Add Skiller to your project
 
 **macOS / Linux:**
 ```bash
-git clone https://github.com/markdav-is/Skiller.git /tmp/skiller-install
 mkdir -p .github/skills/skiller .github/agents .github/prompts
-cp /tmp/skiller-install/SKILL.md .github/skills/skiller/SKILL.md
-cp /tmp/skiller-install/.github/agents/skiller.agent.md .github/agents/
-cp /tmp/skiller-install/.github/prompts/skiller.prompt.md .github/prompts/
-cp /tmp/skiller-install/.github/copilot-instructions.md .github/copilot-instructions.md
-rm -rf /tmp/skiller-install
+curl -sL https://raw.githubusercontent.com/markdav-is/Skiller/main/SKILL.md -o .github/skills/skiller/SKILL.md
+curl -sL https://raw.githubusercontent.com/markdav-is/Skiller/main/.github/agents/skiller.agent.md -o .github/agents/skiller.agent.md
+curl -sL https://raw.githubusercontent.com/markdav-is/Skiller/main/.github/prompts/skiller.prompt.md -o .github/prompts/skiller.prompt.md
 ```
 
 **Windows (PowerShell):**
 ```powershell
-git clone https://github.com/markdav-is/Skiller.git $env:TEMP\skiller-install
 New-Item -ItemType Directory -Force -Path .github\skills\skiller, .github\agents, .github\prompts
-Copy-Item $env:TEMP\skiller-install\SKILL.md .github\skills\skiller\SKILL.md
-Copy-Item $env:TEMP\skiller-install\.github\agents\skiller.agent.md .github\agents\
-Copy-Item $env:TEMP\skiller-install\.github\prompts\skiller.prompt.md .github\prompts\
-Copy-Item $env:TEMP\skiller-install\.github\copilot-instructions.md .github\copilot-instructions.md
-Remove-Item -Recurse -Force $env:TEMP\skiller-install
+Invoke-WebRequest https://raw.githubusercontent.com/markdav-is/Skiller/main/SKILL.md -OutFile .github\skills\skiller\SKILL.md
+Invoke-WebRequest https://raw.githubusercontent.com/markdav-is/Skiller/main/.github/agents/skiller.agent.md -OutFile .github\agents\skiller.agent.md
+Invoke-WebRequest https://raw.githubusercontent.com/markdav-is/Skiller/main/.github/prompts/skiller.prompt.md -OutFile .github\prompts\skiller.prompt.md
 ```
 
 #### Step 2: Use it
@@ -53,116 +55,16 @@ Remove-Item -Recurse -Force $env:TEMP\skiller-install
 - **Prompt command**: Type `/skiller` in Copilot Chat to trigger a session retrospective
 - **Manual**: Say "save this as a skill" or "what did we learn?" in any chat
 
-### Claude Code
-
-#### Step 1: Clone the skill
-
-**Project-level (recommended)**
-
-```bash
-git clone https://github.com/markdav-is/Skiller.git .github/skills/skiller
-```
-
-**User-level**
-
-```bash
-git clone https://github.com/markdav-is/Skiller.git ~/.config/claude/skills/skiller
-```
-
-#### Step 2: Set up the activation hook (recommended)
-
-The skill can activate via semantic matching, but a hook ensures it evaluates every session for extractable knowledge.
-
-##### User-level setup (recommended)
-
-1. Create the hooks directory and copy the script:
-
-**macOS / Linux:**
-```bash
-mkdir -p ~/.claude/hooks
-cp .github/skills/skiller/scripts/skiller-activator.sh ~/.claude/hooks/
-chmod +x ~/.claude/hooks/skiller-activator.sh
-```
-
-**Windows (PowerShell):**
-```powershell
-New-Item -ItemType Directory -Force -Path $env:USERPROFILE\.claude\hooks
-Copy-Item .github\skills\skiller\scripts\skiller-activator.sh $env:USERPROFILE\.claude\hooks\
-```
-
-2. Add the hook to your global Claude settings (`~/.claude/settings.json`):
-
-```json
-{
-  "hooks": {
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/skiller-activator.sh"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-##### Project-level setup
-
-1. Create the hooks directory inside your project and copy the script:
-
-**macOS / Linux:**
-```bash
-mkdir -p .claude/hooks
-cp .github/skills/skiller/scripts/skiller-activator.sh .claude/hooks/
-chmod +x .claude/hooks/skiller-activator.sh
-```
-
-**Windows (PowerShell):**
-```powershell
-New-Item -ItemType Directory -Force -Path .claude\hooks
-Copy-Item .github\skills\skiller\scripts\skiller-activator.sh .claude\hooks\
-```
-
-2. Add the hook to your project settings (`.claude/settings.json` in the repo):
-
-```json
-{
-  "hooks": {
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": ".claude/hooks/skiller-activator.sh"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-If you already have a `settings.json`, merge the `hooks` configuration into it.
-
-The hook injects a reminder on every prompt that tells the agent to evaluate whether the current task produced extractable knowledge.
-
 ### Cursor / Other Agents
 
-Agents that support the Agent Skills standard can use Skiller by installing it into the standard skills directory:
+Agents that support the Agent Skills standard can use Skiller by adding the skill file:
 
 ```bash
-# Clone to a temporary location
-git clone https://github.com/markdav-is/Skiller.git /tmp/skiller-install
-
-# Copy the core skill file into the standard skills directory
 mkdir -p .github/skills/skiller
-cp /tmp/skiller-install/SKILL.md .github/skills/skiller/SKILL.md
+curl -sL https://raw.githubusercontent.com/markdav-is/Skiller/main/SKILL.md -o .github/skills/skiller/SKILL.md
 ```
 
-The `.github/skills/` path is recognized by Claude Code, GitHub Copilot, Cursor, OpenCode, and others.
+The `.github/skills/` path is recognized by GitHub Copilot, Cursor, and other compatible agents.
 
 ## Usage
 
@@ -179,12 +81,6 @@ The skill activates automatically when the agent:
 
 Trigger a learning retrospective:
 
-**Claude Code:**
-```
-/skiller
-```
-
-**GitHub Copilot:**
 ```
 /skiller
 ```
@@ -269,14 +165,6 @@ See `resources/skill-template.md` for the full template.
 
 The skill is picky about what it extracts. If something is just a documentation lookup, or only useful for this one case, or hasn't actually been tested, it won't create a skill. Would this actually help someone who hits this problem in six months? If not, no skill.
 
-## Examples
-
-See `examples/` for sample skills:
-
-- `nextjs-server-side-error-debugging/`: errors that don't show in browser console
-- `prisma-connection-pool-exhaustion/`: the "too many connections" serverless problem
-- `typescript-circular-dependency/`: detecting and fixing import cycles
-
 ## Research
 
 The idea comes from academic work on skill libraries for AI agents.
@@ -293,15 +181,11 @@ SKILL.md                              # Main skill definition (all agents)
   agents/skiller.agent.md             # Copilot custom agent
   prompts/skiller.prompt.md           # Copilot prompt file (/skiller)
   copilot-instructions.md             # Copilot repo instructions
-scripts/
-  skiller-activator.sh                # Claude Code activation hook
-  claudeception-activator.sh          # Legacy activation hook
 resources/
   skill-template.md                   # Template for new skills
-  research-references.md              # Academic research
-examples/                             # Sample extracted skills
-COPILOT.md                            # Copilot-specific guidance
-WARP.md                               # WARP.dev guidance
+COPILOT.md
+VSCODE.md                             # VS Code guidance
+VISUAL-STUDIO.md                      # Visual Studio guidance
 ```
 
 ## Contributing

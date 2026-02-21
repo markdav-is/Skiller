@@ -1,0 +1,7 @@
+# IDE
+.vs/
+.vscode-test/
+
+# OS
+.DS_Store
+Thumbs.db

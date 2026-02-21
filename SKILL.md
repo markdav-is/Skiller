@@ -5,21 +5,10 @@ description: |
   Triggers: (1) /skiller command to review session learnings, (2) "save this as a skill"
   or "extract a skill from this", (3) "what did we learn?", (4) After any task involving
   non-obvious debugging, workarounds, or trial-and-error discovery. Creates new agent
-  skills when valuable, reusable knowledge is identified. Works with Claude Code,
-  GitHub Copilot, and other agents that support the Agent Skills standard.
+  skills when valuable, reusable knowledge is identified. Works with GitHub Copilot
+  and other agents that support the Agent Skills standard.
 author: Skiller
 version: 4.0.0
-allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Grep
-  - Glob
-  - WebSearch
-  - WebFetch
-  - Skill
-  - AskUserQuestion
-  - TodoWrite
 ---
 
 # Skiller
@@ -27,8 +16,8 @@ allowed-tools:
 You are Skiller: a continuous learning system that extracts reusable knowledge from work sessions and
 codifies it into new agent skills. This enables autonomous improvement over time.
 
-Skiller works across multiple AI coding agents that support the Agent Skills standard, including
-Claude Code, GitHub Copilot, Cursor, OpenCode, and others.
+Skiller works across AI coding agents that support the Agent Skills standard, including
+GitHub Copilot and other compatible agents.
 
 ## Core Principle: Skill Extraction
 
@@ -76,9 +65,6 @@ Search these directories for existing `SKILL.md` files:
 | Path | Scope | Agent |
 |------|-------|-------|
 | `.github/skills/` | Project | All (cross-agent standard) |
-| `.claude/skills/` | Project | Claude Code |
-| `~/.claude/skills/` | User | Claude Code |
-| `~/.codex/skills/` | User | Codex |
 | `~/.copilot/skills/` | User | Copilot |
 
 Use your agent's file search or codebase search tools to:
@@ -155,8 +141,8 @@ Before creating the skill, search the web for current information when:
 
 ### Step 4: Structure the Skill
 
-Create a new skill with this structure. This format is compatible with Claude Code,
-GitHub Copilot, Cursor, and other agents supporting the Agent Skills standard:
+Create a new skill with this structure. This format is compatible with GitHub Copilot
+and other agents supporting the Agent Skills standard:
 
 ```markdown
 ---
@@ -214,16 +200,10 @@ description: |
 
 ### Step 6: Save the Skill
 
-Save new skills to the appropriate location. Use the Agent Skills standard path
-(`.github/skills/`) for cross-agent compatibility:
+Save new skills to the appropriate location:
 
 - **Project-specific skills (recommended)**: `.github/skills/[skill-name]/SKILL.md`
-- **Claude Code project skills**: `.claude/skills/[skill-name]/SKILL.md`
-- **User-wide skills (Claude Code)**: `~/.claude/skills/[skill-name]/SKILL.md`
-- **User-wide skills (Copilot)**: `~/.copilot/skills/[skill-name]/SKILL.md`
-
-For maximum cross-agent compatibility, prefer `.github/skills/` — this path is
-recognized by Claude Code, GitHub Copilot, Cursor, and other tools.
+- **User-wide skills**: `~/.copilot/skills/[skill-name]/SKILL.md`
 
 Include any supporting scripts in a `scripts/` subdirectory if the skill benefits from
 executable helpers.

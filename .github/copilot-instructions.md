@@ -29,8 +29,6 @@ include a skill template, example skills, and integration configurations for mul
 | `.github/agents/skiller.agent.md` | Copilot custom agent for skill extraction |
 | `.github/prompts/skiller.prompt.md` | Copilot prompt file for `/skiller` command |
 | `resources/skill-template.md` | Template for new skills |
-| `examples/` | Sample extracted skills |
-| `scripts/skiller-activator.sh` | Activation hook for Claude Code |
 
 ## Skill Format
 
