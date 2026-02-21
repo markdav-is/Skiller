@@ -2,6 +2,8 @@
 
 AI coding agents are good at solving problems—but bad at remembering them. You spend time debugging an obscure issue. The agent eventually figures it out. The session ends. When the same issue shows up later, the agent has no memory of the solution, and you start over from scratch. This leads to repeated explanations, duplicated effort, and wasted time.
 
+![splash image](https://private-user-images.githubusercontent.com/311063/553036979-7b08a52f-14fa-4ca6-b65c-05bf9ecb43f3.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzE2OTc2OTIsIm5iZiI6MTc3MTY5NzM5MiwicGF0aCI6Ii8zMTEwNjMvNTUzMDM2OTc5LTdiMDhhNTJmLTE0ZmEtNGNhNi1iNjVjLTA1YmY5ZWNiNDNmMy5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwMjIxJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDIyMVQxODA5NTJaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0yYzBhYTBlMGUzN2JmMjMyY2Q5OGU0Njg3MDYzN2YzMzcxZTNlZjRmNDBmMTZiMmQ3ZGU3NWU1OWRjZGFmMzU2JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.MnMv2l9oAWsCfWuw478leJVzN-S1zazcFcaMJj3uBBw)
+
 ## Solution
 
 Skiller adds persistent memory to AI coding agents. When an agent uncovers something non-obvious—such as a debugging technique, workaround, or project-specific pattern—Skiller saves it as a reusable skill. That skill is automatically loaded the next time a similar situation appears. No re-explaining. No rediscovering the same fix.
