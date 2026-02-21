@@ -69,12 +69,23 @@ Search these directories for existing `SKILL.md` files:
 | `~/.claude/skills/` | User | Claude Code |
 | `~/.copilot/skills/` | User | Copilot |
 
-Use your agent's file search or codebase search tools to:
+Use your agent's tools to find existing skills before creating new ones:
 
-1. **List all skills**: Find all `SKILL.md` files in the directories above
-2. **Search by keywords**: Search skill files for relevant terms
-3. **Search by error message**: Look for exact error text in existing skills
-4. **Search by context**: Search for related filenames, functions, or config keys
+**Claude Code:**
+```bash
+find .claude/skills ~/.claude/skills -name "SKILL.md" 2>/dev/null
+grep -rl "[search term]" .claude/skills ~/.claude/skills 2>/dev/null
+```
+
+**GitHub Copilot / Cursor:**
+Use your agent's built-in file search and code search tools to find `SKILL.md` files
+in `.github/skills/`. Do not shell out — use the tools your agent provides (e.g.,
+file search, code search, workspace search).
+
+Search for:
+1. **Keywords** from the problem domain
+2. **Exact error messages** that triggered the investigation
+3. **Related filenames, functions, or config keys**
 
 | Found                                            | Action                                                   |
 |--------------------------------------------------|----------------------------------------------------------|
@@ -96,6 +107,7 @@ Analyze what was learned:
 - What was non-obvious about the solution?
 - What would someone need to know to solve this faster next time?
 - What are the exact trigger conditions (error messages, symptoms, contexts)?
+- What approaches were tried and rejected, and why didn't they work?
 
 ### Step 3: Research Best Practices (When Appropriate)
 
@@ -169,6 +181,10 @@ date: [YYYY-MM-DD]
 ## Solution
 [Step-by-step solution or knowledge to apply]
 
+## What Was Tried
+[Optional: Approaches that were attempted and didn't work, and why. This prevents
+others from going down the same dead ends.]
+
 ## Verification
 [How to verify the solution worked]
 
@@ -180,6 +196,9 @@ date: [YYYY-MM-DD]
 
 ## References
 [Optional: Links to official documentation, articles, or resources that informed this skill]
+
+## Activation History
+[Append a line each time this skill is used to solve a problem: YYYY-MM-DD brief context]
 ```
 
 ### Step 5: Write Effective Descriptions
@@ -242,6 +261,10 @@ When extracting skills, also consider:
 
 3. **Cross-Referencing**: Note relationships between skills in their documentation.
 
+4. **Logging Activations**: When an existing skill helps solve a problem, append a line
+   to its `## Activation History` section with the date and brief context. Skills with
+   no activation entries after several weeks likely have descriptions that need rewriting.
+
 ## Quality Gates
 
 Before finalizing a skill, verify:
@@ -269,9 +292,11 @@ Before finalizing a skill, verify:
 Skills should evolve:
 
 1. **Creation**: Initial extraction with documented verification
-2. **Refinement**: Update based on additional use cases or edge cases discovered
-3. **Deprecation**: Mark as deprecated when underlying tools/patterns change
-4. **Archival**: Remove or archive skills that are no longer relevant
+2. **Activation**: Skill is matched and used — log each use in Activation History
+3. **Review**: Check Activation History periodically — no entries means the description needs work
+4. **Refinement**: Update based on additional use cases or edge cases discovered
+5. **Deprecation**: Mark as deprecated when underlying tools/patterns change
+6. **Archival**: Remove or archive skills that are no longer relevant
 
 ## Example: Complete Extraction Flow
 

@@ -86,6 +86,9 @@ date: [YYYY-MM-DD]
 ## Solution
 [Step-by-step fix with code examples]
 
+## What Was Tried
+[Optional: Approaches attempted and rejected, and why]
+
 ## Verification
 [How to confirm it worked]
 
@@ -97,6 +100,9 @@ date: [YYYY-MM-DD]
 
 ## References
 [Links to official docs and resources]
+
+## Activation History
+[Append a line each time this skill is used: YYYY-MM-DD brief context]
 ```
 
 ### Step 5: Write Effective Descriptions

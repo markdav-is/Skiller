@@ -47,6 +47,14 @@ What pain point does this solve? Why is it non-obvious?]
 
 [Include alternatives or variations if relevant]
 
+## What Was Tried
+
+[Optional: Approaches that were attempted and didn't work, and why.
+Documenting dead ends saves others from repeating them.]
+
+- **[Approach 1]**: [Why it didn't work]
+- **[Approach 2]**: [Why it didn't work]
+
 ## Verification
 
 [How to confirm the solution worked:]
@@ -81,6 +89,10 @@ What pain point does this solve? Why is it non-obvious?]
 ## References
 
 [Links to official documentation, articles, or resources that informed this skill]
+
+## Activation History
+
+[Append a line each time this skill is used: YYYY-MM-DD brief context]
 
 ---
 
