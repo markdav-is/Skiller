@@ -70,4 +70,4 @@ When modifying or creating skills, ensure:
 
 ## Research Foundation
 
-The approach is based on academic work on skill libraries (Voyager, CASCADE, SEAgent, Reflexion). See `resources/research-references.md` for details.
+The approach is based on academic work on skill libraries for AI agents — Voyager (skill libraries), CASCADE (meta-skills), SEAgent (experiential learning), and Reflexion (self-reflection).

@@ -20,17 +20,37 @@ Why It Matters
 
 Think of it as a checklist that writes itself—so your future self (and your teammates) don’t have to relearn lessons you already paid for.
 
-Works with **Claude Code**, **GitHub Copilot**, **Cursor**, and other agents that support the [Agent Skills standard](https://code.visualstudio.com/docs/copilot/customization/agent-skills).
+Works with [**Claude Code**](https://docs.anthropic.com/en/docs/claude-code), [**GitHub Copilot**](https://code.visualstudio.com/docs/copilot/customization/agent-skills), [**Cursor**](https://www.cursor.com/), and other agents that support the [Agent Skills standard](https://agentskills.io/home).
 
 > Fork of [Claudeception](https://github.com/blader/Claudeception), extended for cross-agent compatibility.
 
 ## Installation
 
+Skiller uses the Agent Skills standard — structured markdown files in your project. Install is the same for every agent: download the skill file into your repo.
+
+### Claude Code
+
+Claude Code natively supports skills via `SKILL.md` files in `.claude/skills/`.
+
+**Project-level** (recommended — shared with your team via git):
+
+```bash
+mkdir -p .claude/skills/skiller
+curl -sL https://raw.githubusercontent.com/markdav-is/Skiller/main/SKILL.md -o .claude/skills/skiller/SKILL.md
+```
+
+**User-level** (applies to all your projects):
+
+```bash
+mkdir -p ~/.claude/skills/skiller
+curl -sL https://raw.githubusercontent.com/markdav-is/Skiller/main/SKILL.md -o ~/.claude/skills/skiller/SKILL.md
+```
+
+That's it. Claude Code discovers skills automatically. Say "save this as a skill" or "what did we learn?" in any session to trigger extraction.
+
 ### GitHub Copilot
 
-Copilot supports Skiller through three integration points: agent skills (automatic), a custom agent (`@skiller`), and a prompt file (`/skiller`).
-
-#### Step 1: Add Skiller to your project
+Copilot supports three integration points: agent skills (automatic), a custom agent (`@skiller`), and a prompt file (`/skiller`).
 
 **macOS / Linux:**
 ```bash
@@ -48,23 +68,19 @@ Invoke-WebRequest https://raw.githubusercontent.com/markdav-is/Skiller/main/.git
 Invoke-WebRequest https://raw.githubusercontent.com/markdav-is/Skiller/main/.github/prompts/skiller.prompt.md -OutFile .github\prompts\skiller.prompt.md
 ```
 
-#### Step 2: Use it
-
-- **Automatic**: Copilot's agent mode loads the skill when context matches (after debugging, error resolution, etc.)
-- **Custom agent**: Type `@skiller` in Copilot Chat to invoke the Skiller agent
-- **Prompt command**: Type `/skiller` in Copilot Chat to trigger a session retrospective
-- **Manual**: Say "save this as a skill" or "what did we learn?" in any chat
+- **Automatic**: Agent mode loads the skill when context matches
+- **Custom agent**: Type `@skiller` in Copilot Chat
+- **Prompt command**: Type `/skiller` for a session retrospective
+- **Manual**: Say "save this as a skill" or "what did we learn?"
 
 ### Cursor / Other Agents
 
-Agents that support the Agent Skills standard can use Skiller by adding the skill file:
+Any agent that reads `.github/skills/` can use Skiller:
 
 ```bash
 mkdir -p .github/skills/skiller
 curl -sL https://raw.githubusercontent.com/markdav-is/Skiller/main/SKILL.md -o .github/skills/skiller/SKILL.md
 ```
-
-The `.github/skills/` path is recognized by GitHub Copilot, Cursor, and other compatible agents.
 
 ## Usage
 
@@ -105,7 +121,9 @@ Extracted skills go to `.github/skills/[skill-name]/SKILL.md` by default — the
 
 | Path | Scope | Agents |
 |------|-------|--------|
-| `.github/skills/` | Project | All (standard path) |
+| `.claude/skills/` | Project | Claude Code |
+| `.github/skills/` | Project | Copilot, Cursor, and others |
+| `~/.claude/skills/` | User | Claude Code |
 | `~/.copilot/skills/` | User | Copilot |
 
 ## How It Works
@@ -126,7 +144,7 @@ Agents use three-level progressive loading to keep things efficient:
 
 This means you can have dozens of skills installed without overwhelming the context window.
 
-More on the skills architecture from [Anthropic](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills) and [VS Code](https://code.visualstudio.com/docs/copilot/customization/agent-skills).
+More on the skills architecture from [Anthropic](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills), [Claude Code docs](https://docs.anthropic.com/en/docs/claude-code/skills), and [VS Code](https://code.visualstudio.com/docs/copilot/customization/agent-skills).
 
 ## Skill Format
 
@@ -134,17 +152,17 @@ Extracted skills are markdown files with YAML frontmatter:
 
 ```yaml
 ---
-name: prisma-connection-pool-exhaustion
+name: [descriptive-kebab-case-name]
 description: |
-  Fix for PrismaClientKnownRequestError: Too many database connections
-  in serverless environments (Vercel, AWS Lambda). Use when connection
-  count errors appear after ~5 concurrent requests.
+  [Precise description including: (1) exact use cases, (2) trigger
+  conditions like specific error messages or symptoms, (3) what
+  problem this solves.]
 author: Skiller
 version: 1.0.0
-date: 2024-01-15
+date: [YYYY-MM-DD]
 ---
 
-# Prisma Connection Pool Exhaustion
+# [Skill Name]
 
 ## Problem
 [What this skill solves]
@@ -165,7 +183,9 @@ See `resources/skill-template.md` for the full template.
 
 The skill is picky about what it extracts. If something is just a documentation lookup, or only useful for this one case, or hasn't actually been tested, it won't create a skill. Would this actually help someone who hits this problem in six months? If not, no skill.
 
-## Research
+
+> Fork of [Claudeception](https://github.com/blader/Claudeception), extended for cross-agent compatibility.
+
 
 The idea comes from academic work on skill libraries for AI agents.
 
@@ -183,7 +203,8 @@ SKILL.md                              # Main skill definition (all agents)
   copilot-instructions.md             # Copilot repo instructions
 resources/
   skill-template.md                   # Template for new skills
-COPILOT.md
+CLAUDE.md                             # Claude Code guidance
+COPILOT.md                            # Copilot guidance
 VSCODE.md                             # VS Code guidance
 VISUAL-STUDIO.md                      # Visual Studio guidance
 ```

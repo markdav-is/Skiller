@@ -64,7 +64,9 @@ Search these directories for existing `SKILL.md` files:
 
 | Path | Scope | Agent |
 |------|-------|-------|
-| `.github/skills/` | Project | All (cross-agent standard) |
+| `.claude/skills/` | Project | Claude Code |
+| `.github/skills/` | Project | Copilot, Cursor, and others |
+| `~/.claude/skills/` | User | Claude Code |
 | `~/.copilot/skills/` | User | Copilot |
 
 Use your agent's file search or codebase search tools to:
