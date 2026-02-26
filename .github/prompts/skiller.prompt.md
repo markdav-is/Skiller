@@ -1,6 +1,6 @@
 ---
 description: 'Review the current session for extractable knowledge and save reusable skills'
-agent: 'agent'
+agent: 'Skiller'
 tools: ['search/codebase', 'read', 'editFiles', 'runInTerminal', 'search/web']
 argument-hint: 'Optionally describe the knowledge to extract'
 ---
